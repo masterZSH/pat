@@ -14,6 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// 工厂方法
 // New returns a new router.
 func New() *Router {
 	return &Router{}
@@ -26,25 +27,34 @@ type Router struct {
 	mux.Router
 }
 
+// 注册方法到匹配的路径
 // Add registers a pattern with a handler for the given request method.
 func (r *Router) Add(meth, pat string, h http.Handler) *mux.Route {
 	return r.NewRoute().PathPrefix(pat).Handler(h).Methods(meth)
 }
+
+// 注册Options请求处理的方法
 
 // Options registers a pattern with a handler for OPTIONS requests.
 func (r *Router) Options(pat string, h http.HandlerFunc) *mux.Route {
 	return r.Add("OPTIONS", pat, h)
 }
 
+// 注册Delete请求处理方法
+
 // Delete registers a pattern with a handler for DELETE requests.
 func (r *Router) Delete(pat string, h http.HandlerFunc) *mux.Route {
 	return r.Add("DELETE", pat, h)
 }
 
+// 注册Head请求处理方法
+
 // Head registers a pattern with a handler for HEAD requests.
 func (r *Router) Head(pat string, h http.HandlerFunc) *mux.Route {
 	return r.Add("HEAD", pat, h)
 }
+
+// 注册Get请求处理方法
 
 // Get registers a pattern with a handler for GET requests.
 func (r *Router) Get(pat string, h http.HandlerFunc) *mux.Route {
@@ -66,8 +76,11 @@ func (r *Router) Patch(pat string, h http.HandlerFunc) *mux.Route {
 	return r.Add("PATCH", pat, h)
 }
 
+// 分发
+
 // ServeHTTP dispatches the handler registered in the matched route.
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	// 路径处理
 	// Clean path to canonical form and redirect.
 	if p := cleanPath(req.URL.Path); p != req.URL.Path {
 		w.Header().Set("Location", p)
