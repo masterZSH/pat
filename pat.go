@@ -93,6 +93,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		handler = match.Handler
 		registerVars(req, match.Vars)
 	}
+	
+	// 没有匹配的请求处理函数
 	if handler == nil {
 		if r.NotFoundHandler == nil {
 			r.NotFoundHandler = http.NotFoundHandler()
@@ -102,6 +104,7 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if !r.KeepContext {
 		defer context.Clear(req)
 	}
+	// 处理请求
 	handler.ServeHTTP(w, req)
 }
 
