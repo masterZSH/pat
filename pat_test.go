@@ -52,6 +52,7 @@ func testMatch(t *testing.T, meth, pat, path string, ok bool, vars map[string]st
 }
 
 func TestPatMatch(t *testing.T) {
+	// 测试了很多情况 比较详细的测试用例
 	testMatch(t, "OPTIONS", "/foo/{name}", "/foo/bar", true, map[string]string{":name": "bar"})
 	testMatch(t, "DELETE", "/foo/{name}", "/foo/bar", true, map[string]string{":name": "bar"})
 	testMatch(t, "HEAD", "/foo/{name}", "/foo/bar", true, map[string]string{":name": "bar"})
